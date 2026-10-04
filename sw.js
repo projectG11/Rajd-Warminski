@@ -1,0 +1,6 @@
+const CACHE="rw-demo-a6ca43c50061";
+const ASSETS=["./","./assets/MapView-B5BN2eD-.js","./assets/MapView-vh-t_kPv.css","./assets/index-BAbrRWi8.css","./assets/index-BDiF0f_w.js","./data/rajd_warminski_2026.json","./data/routes.json","./favicon.svg","./icon-192.png","./icon-512.png","./index.html","./manifest.webmanifest","./routes/lomy.gpx","./routes/matki.gpx"];
+const URLS=new Set(ASSETS.map(url=>new URL(url,self.location.href).href));
+self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
+self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith("rw-demo-")&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener("fetch",event=>{const r=event.request; if(r.method!=="GET"||new URL(r.url).origin!==self.location.origin||(!URLS.has(r.url)&&r.mode!=="navigate"))return; event.respondWith(fetch(r).then(response=>{if(response.ok){const copy=response.clone();event.waitUntil(caches.open(CACHE).then(cache=>cache.put(r,copy)));}return response;}).catch(()=>caches.match(r).then(cached=>cached||(r.mode==="navigate"?caches.match(new URL("./",self.location.href).href):Response.error()))));});
