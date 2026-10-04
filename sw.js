@@ -1,5 +1,5 @@
-const CACHE="rw-demo-a6ca43c50061";
-const ASSETS=["./","./assets/MapView-B5BN2eD-.js","./assets/MapView-vh-t_kPv.css","./assets/index-BAbrRWi8.css","./assets/index-BDiF0f_w.js","./data/rajd_warminski_2026.json","./data/routes.json","./favicon.svg","./icon-192.png","./icon-512.png","./index.html","./manifest.webmanifest","./routes/lomy.gpx","./routes/matki.gpx"];
+const CACHE="rw-demo-630abc372fa5";
+const ASSETS=["./","./assets/MapView-DWJ03W7J.js","./assets/MapView-vh-t_kPv.css","./assets/index-BAbrRWi8.css","./assets/index-Dngr6Ung.js","./data/rajd_warminski_2026.json","./data/routes.json","./favicon.svg","./icon-192.png","./icon-512.png","./index.html","./manifest.webmanifest","./routes/lomy.gpx","./routes/matki.gpx"];
 const URLS=new Set(ASSETS.map(url=>new URL(url,self.location.href).href));
 self.addEventListener("install",event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener("activate",event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith("rw-demo-")&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
